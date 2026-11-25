@@ -1,0 +1,34 @@
+DirectoryIndex index.php
+RewriteEngine On
+
+# ----------------------------
+# DEFINE BASE FOLDER
+# ----------------------------
+RewriteBase /portal/
+
+# ----------------------------
+# Redirect index.php → /portal/
+# ----------------------------
+RewriteCond %{THE_REQUEST} /index\.php [NC]
+RewriteRule ^index\.php$ /portal/ [R=301,L]
+
+# ----------------------------
+# Redirect .php → clean URL
+# ----------------------------
+RewriteCond %{THE_REQUEST} \.php [NC]
+RewriteRule ^(.+)\.php$ /portal/$1 [R=301,L]
+
+# ----------------------------
+# Ignore real files & folders
+# ----------------------------
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ----------------------------
+# Internal rewrite clean → .php
+# ----------------------------
+RewriteRule ^(.+)$ $1.php [L,QSA]
+
+ErrorDocument 404 /mysite/404.html
+
